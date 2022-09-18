@@ -74,6 +74,10 @@ public class GameManager : MonoBehaviour
     {
         //While doingSetup is true the player can't move, prevent player from moving while title card is up.
         doingSetup = true;
+        if (level > 3) {
+            GameOver(true);
+            return;
+        }
 
         //Get a reference to our image LevelImage by finding it by name.
         levelImage = GameObject.Find("LevelImage");
@@ -131,7 +135,7 @@ public class GameManager : MonoBehaviour
 
 
     //GameOver is called when the player reaches 0 food points
-    public void GameOver()
+    public void GameOver(bool win = false)
     {
         //Set levelText to display number of levels passed and game over message
         levelText.text = "After " + level + " days, you starved.";

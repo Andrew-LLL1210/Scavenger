@@ -73,7 +73,7 @@ public class BoardManager : MonoBehaviour
         {
             for (int y = -1; y < rows + 1; y++)
             {
-                GameObject toInstantiate = floorTiles[Random.Range(0, floorTiles.Length)];
+                GameObject toInstantiate = floorTiles[Random.Range(0, floorTiles.Length - 1)];
                 if (x == -1 || x == columns || y == -1 || y == rows)
                 {
                     toInstantiate = outerWallTiles[Random.Range(0, outerWallTiles.Length)];
@@ -105,15 +105,45 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    public void SetupScene(int level)
+    // return value indicates if there is a next level
+    public bool SetupScene(int level)
     {
-        BoardSetup();
-        InitialiseList();
-        LayoutObjectAtRandom(wallTiles, wallCount.minimum, wallCount.maximum);
-        LayoutObjectAtRandom(foodTiles, foodCount.minimum, foodCount.maximum);
-        int enemyCount = (int)Mathf.Log(level, 2f);
-        enemyCount += 5;
-        LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
-        Instantiate(exit, new Vector3(columns - 1, rows - 1, 0f), Quaternion.identity);
+        // BoardSetup();
+        // InitialiseList();
+        // LayoutObjectAtRandom(wallTiles, wallCount.minimum, wallCount.maximum);
+        // LayoutObjectAtRandom(foodTiles, foodCount.minimum, foodCount.maximum);
+        // int enemyCount = (int)Mathf.Log(level, 2f);
+        // enemyCount += 5;
+        // LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
+        // Instantiate(exit, new Vector3(columns - 1, rows - 1, 0f), Quaternion.identity);
+
+        string resource_name = String.Format("day{0}", level);
+        TextAsset level_asset = Resources.Load(resource_name) as TextAsset;
+        if (level_asset == null) return false;
+
+        string[] lines = level_asset.text.Split('\n');
+        for (int i = 0; i < lines.Length; i++) for (int j = 0; j < lines[i].Length; j++) {
+            char c = lines[i][j];
+            Vector3 pos = new Vector3(j - 1, rows - i, 0f);
+            if (c == 'X') {
+                GameObject wall = randomElement(wallTiles);
+                Instantiate(wall, pos, Quaternion.identity);
+            } else if (c == 'F') {
+                GameObject food = randomElement(foodTiles);
+                Instantiate(food, pos, Quaternion.identity);
+            } else if (c == 'E') {
+                GameObject enemy = randomElement(enemyTiles);
+                Instantiate(enemy, pos, Quaternion.identity);
+            } else if (c == 'T') {
+                Instantiate(exit, pos, Quaternion.identity);
+            }
+            GameObject floor = randomElement(floorTiles);
+            Instantiate(floor, pos, Quaternion.identity);
+        }
+        return true;
+    }
+
+    public T randomElement<T>(T[] list) {
+        return list[Random.Range(0, list.Length)];
     }
 }
