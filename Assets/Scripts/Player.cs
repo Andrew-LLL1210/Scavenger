@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.SceneManagement;        //Allows us to use SceneManager
+using UnityEngine.SceneManagement; // SceneManager
 using System;
 using UnityEngine.UI;
 
 public class Player : MovingObject {
-    public float restartLevelDelay = 1f;        // Delay time in seconds to restart level.
-    public int pointsPerFood = 10;              // Number of points to add to player food points when picking up a food object.
-    public int pointsPerSoda = 20;              // Number of points to add to player food points when picking up a soda object.
-    public int wallDamage = 1;                  // How much damage a player does to a wall when chopping it.
+    public float restartLevelDelay = 1f; // in seconds
+    public int pointsPerFood = 10;
+    public int pointsPerSoda = 20;
+    public int wallDamage = 1;
     public Text foodText;
     public AudioClip moveSound1;
     public AudioClip moveSound2;
