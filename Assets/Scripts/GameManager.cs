@@ -102,14 +102,8 @@ public class GameManager : MonoBehaviour {
 
     //Update is called every frame.
     void Update() {
-        //Check that playersTurn or enemiesMoving or doingSetup are not currently true.
-        if (playersTurn || enemiesMoving || doingSetup)
-        {
-            //If any of these are true, return and do not start MoveEnemies.
-            return;
-        }
+        if (playersTurn || enemiesMoving || doingSetup) return;
 
-        //Start moving enemies.
         StartCoroutine(MoveEnemies());
     }
 
@@ -122,13 +116,11 @@ public class GameManager : MonoBehaviour {
 
     //GameOver is called when the player reaches 0 food points
     public void GameOver(bool win = false) {
-        //Set levelText to display number of levels passed and game over message
-        levelText.text = "After " + level + " days, you starved.";
-
-        //Enable black background image gameObject.
+        levelText.text = string.Format(win
+            ? "You survived all {0} days!"
+            : "On day {0}, you starved.",
+            level);
         levelImage.SetActive(true);
-
-        //Disable this GameManager.
         enabled = false;
     }
 
