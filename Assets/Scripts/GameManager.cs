@@ -5,6 +5,7 @@ using UnityEngine.UI;                    //Allows us to use UI.
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
+    public int max_level = 3;
     public float levelStartDelay = 2f;                        //Time to wait before starting level, in seconds.
     public float turnDelay = 0.1f;                            //Delay between each Player turn.
     public int playerFoodPoints = 100;                        //Starting value for Player food points.
@@ -63,19 +64,13 @@ public class GameManager : MonoBehaviour {
 
     //Initializes the game for each level.
     void InitGame() {
-        //While doingSetup is true the player can't move, prevent player from moving while title card is up.
-        doingSetup = true;
-
-        //Get a reference to our image LevelImage by finding it by name.
+        doingSetup = true; // prevent game updates while setup occurs
         levelImage = GameObject.Find("LevelImage");
-
-        //Get a reference to our text LevelText's text component by finding it by name and calling GetComponent.
         levelText = GameObject.Find("LevelText").GetComponent<Text>();
 
-        if (level >= 1) {
+        if (level >= max_level) {
             GameOver(true);
             return;
-        
         }
 
         level++;

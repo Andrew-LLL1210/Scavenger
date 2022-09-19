@@ -108,15 +108,6 @@ public class BoardManager : MonoBehaviour
     // return value indicates if there is a next level
     public bool SetupScene(int level)
     {
-        // BoardSetup();
-        // InitialiseList();
-        // LayoutObjectAtRandom(wallTiles, wallCount.minimum, wallCount.maximum);
-        // LayoutObjectAtRandom(foodTiles, foodCount.minimum, foodCount.maximum);
-        // int enemyCount = (int)Mathf.Log(level, 2f);
-        // enemyCount += 5;
-        // LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
-        // Instantiate(exit, new Vector3(columns - 1, rows - 1, 0f), Quaternion.identity);
-
         string resource_name = String.Format("day{0}", level);
         TextAsset level_asset = Resources.Load(resource_name) as TextAsset;
         if (level_asset == null) return false;
