@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour {
         //Get a reference to our text LevelText's text component by finding it by name and calling GetComponent.
         levelText = GameObject.Find("LevelText").GetComponent<Text>();
 
-        if (level > 1) {
+        if (level >= 1) {
             GameOver(true);
             return;
         
