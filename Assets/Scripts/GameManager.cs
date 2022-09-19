@@ -4,8 +4,7 @@ using System.Collections.Generic;        //Allows us to use Lists.
 using UnityEngine.UI;                    //Allows us to use UI.
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
-{
+public class GameManager : MonoBehaviour {
     public float levelStartDelay = 2f;                        //Time to wait before starting level, in seconds.
     public float turnDelay = 0.1f;                            //Delay between each Player turn.
     public int playerFoodPoints = 100;                        //Starting value for Player food points.
@@ -24,8 +23,7 @@ public class GameManager : MonoBehaviour
 
 
     //Awake is always called before any Start functions
-    void Awake()
-    {
+    void Awake() {
         // Singleton logic
         if (instance == null)
         {
@@ -48,36 +46,25 @@ public class GameManager : MonoBehaviour
     }
 
     //This is called each time a scene is loaded.
-    void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
-    {
-        // Add one so when Scene is reloaded we'll move to the next level
-        level++;
-
+    void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode) {
         InitGame();
     }
 
-    void OnEnable()
-    {
+    void OnEnable() {
         // Listen for a scene change event as soon as this script is enabled
         SceneManager.sceneLoaded += OnLevelFinishedLoading;
     }
 
-    void OnDisable()
-    {
+    void OnDisable() {
         // Stop listening for a scene change event as soon as this script is disabled
         // Remember to always have an unsubscription for every event you subscribe to!
         SceneManager.sceneLoaded -= OnLevelFinishedLoading;
     }
 
     //Initializes the game for each level.
-    void InitGame()
-    {
+    void InitGame() {
         //While doingSetup is true the player can't move, prevent player from moving while title card is up.
         doingSetup = true;
-        if (level > 3) {
-            GameOver(true);
-            return;
-        }
 
         //Get a reference to our image LevelImage by finding it by name.
         levelImage = GameObject.Find("LevelImage");
@@ -85,12 +72,19 @@ public class GameManager : MonoBehaviour
         //Get a reference to our text LevelText's text component by finding it by name and calling GetComponent.
         levelText = GameObject.Find("LevelText").GetComponent<Text>();
 
+        if (level > 1) {
+            GameOver(true);
+            return;
+        
+        }
+
+        level++;
+
         //Set the text of levelText to the string "Day" and append the current level number.
         levelText.text = "Day " + level;
 
         //Set levelImage to active blocking player's view of the game board during setup.
         levelImage.SetActive(true);
-
         //Call the HideLevelImage function with a delay in seconds of levelStartDelay.
         Invoke("HideLevelImage", levelStartDelay);
 
@@ -103,8 +97,7 @@ public class GameManager : MonoBehaviour
 
 
     //Hides black image used between levels
-    void HideLevelImage()
-    {
+    void HideLevelImage() {
         //Disable the levelImage gameObject.
         levelImage.SetActive(false);
 
@@ -113,8 +106,7 @@ public class GameManager : MonoBehaviour
     }
 
     //Update is called every frame.
-    void Update()
-    {
+    void Update() {
         //Check that playersTurn or enemiesMoving or doingSetup are not currently true.
         if (playersTurn || enemiesMoving || doingSetup)
         {
@@ -127,16 +119,14 @@ public class GameManager : MonoBehaviour
     }
 
     //Call this to add the passed in Enemy to the List of Enemy objects.
-    public void AddEnemyToList(Enemy script)
-    {
+    public void AddEnemyToList(Enemy script) {
         //Add Enemy to List enemies.
         enemies.Add(script);
     }
 
 
     //GameOver is called when the player reaches 0 food points
-    public void GameOver(bool win = false)
-    {
+    public void GameOver(bool win = false) {
         //Set levelText to display number of levels passed and game over message
         levelText.text = "After " + level + " days, you starved.";
 
@@ -148,8 +138,7 @@ public class GameManager : MonoBehaviour
     }
 
     //Coroutine to move enemies in sequence.
-    IEnumerator MoveEnemies()
-    {
+    IEnumerator MoveEnemies() {
         //While enemiesMoving is true player is unable to move.
         enemiesMoving = true;
 
