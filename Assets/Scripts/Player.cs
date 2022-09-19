@@ -19,8 +19,8 @@ public class Player : MovingObject {
     public AudioClip gameOverSound;
 
 
-    private Animator animator;                  // Used to store a reference to the Player's animator component.
-    private int food;                           // Used to store player food points total during level.
+    private Animator animator;
+    private int food;
 
 
     protected override void Start() {
