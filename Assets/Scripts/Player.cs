@@ -107,8 +107,8 @@ public class Player : MovingObject {
         SceneManager.LoadScene(0);
     }
 
-    //LoseFood is called when an enemy attacks the player.
-    //It takes a parameter loss which specifies how many points to lose.
+    // called by an enemy upon attacking the player
+    // @param loss: how much food lost
     public void LoseFood(int loss) {
         animator.SetTrigger("playerHit");
 
@@ -119,7 +119,7 @@ public class Player : MovingObject {
         CheckIfGameOver();
     }
 
-    //CheckIfGameOver checks if the player is out of food points and if so, ends the game.
+    // ends the game if the player is out of food points
     private void CheckIfGameOver() {
         if (food <= 0) {
             SoundManager.instance.PlaySingle(gameOverSound);
